@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Django: Debug Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/homepage/manage.py",
+            "args": [
+                "runserver",
+                "0.0.0.0:8000"
+            ],
+            "django": true,
+            "justMyCode": false,
+            "env": {
+                // "DJANGO_SETTINGS_MODULE": "config.settings"
+            }
+        },
+        {
+            "name": "Django: Debug Tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/homepage/manage.py",
+            "args": [
+                "test"
+            ],
+            "django": true,
+            "justMyCode": false
+        },
+        {
+            "name": "Django: Shell",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/homepage/manage.py",
+            "args": [
+                "shell"
+            ],
+            "django": true,
+            "console": "integratedTerminal"
+        }
+    ]
+}

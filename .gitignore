@@ -1,0 +1,7 @@
+**/__pycache__/*
+**/migrations/*
+.venv/*
+*.env
+homepage/db.sqlite3
+docker/db/mysql/*
+collected_files/*

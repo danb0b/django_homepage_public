@@ -1,0 +1,11 @@
+django
+pytz
+pygments
+pymdown-extensions
+mysqlclient
+gunicorn
+dotenv
+markdown
+python-frontmatter
+danjangomdx>=0.0.7
+markdown-mermaid
