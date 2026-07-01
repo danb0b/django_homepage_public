@@ -5,3 +5,4 @@
 homepage/db.sqlite3
 docker/db/mysql/*
 collected_files/*
+homepage/db.sqlite3
