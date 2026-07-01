@@ -2,6 +2,8 @@
 
 Please go to https://backpack.danaukes.com/course/43 for the course materials
 
+Description of the branches below:
+
 ### Lecture 2
 
 Created a basic project structure, and installed prerequisites.
