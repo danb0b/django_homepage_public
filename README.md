@@ -1,4 +1,5 @@
 ## Markdown-enabled Django Blog
 
-### V1
-Basic Functionality
+### Lecture 2
+
+Created a basic project structure, and installed prerequisites.
