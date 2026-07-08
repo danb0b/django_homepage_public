@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+  {% if post.title %}
+    <title>{{post.title}} | DanAukes.com</title>
+  {% else %}
+    <title>DanAukes.com</title>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <article>
+    <h1>{{post.title}}</h1>
+    <hr/>
+    <div class="markdown">
+
+      {{ post.content | safe}}
+
+    </div>
+  </article>
+{% endblock %}

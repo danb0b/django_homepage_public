@@ -1,3 +1,18 @@
 from django.contrib import admin
+from django.http import HttpResponseRedirect
+from django.urls import path
+from django.conf import settings
 
-# Register your models here.
+from .models import Post
+from .models import Tag
+
+class TagAdmin(admin.ModelAdmin):
+    pass
+    list_display = ['name'] 
+admin.site.register(Tag,TagAdmin)
+
+class PostAdmin(admin.ModelAdmin):
+    list_display = ['title','author'] 
+
+    pass
+admin.site.register(Post, PostAdmin)
