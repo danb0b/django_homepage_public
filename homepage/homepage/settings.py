@@ -116,3 +116,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Custom addition. This is the list of enabled markdown extensions
+MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.tables',
+    'markdown.extensions.codehilite',
+    'markdown.extensions.toc',
+    'markdown.extensions.attr_list',
+    'markdown.extensions.footnotes',
+    'markdown.extensions.wikilinks',
+    'pymdownx.superfences',
+    ]

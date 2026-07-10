@@ -14,7 +14,9 @@
     <hr/>
     <div class="markdown">
 
-      {{ post.content | safe}}
+    {% with rendered_markdown=post.render_full_markdown %}
+    {{ rendered_markdown.html | safe}}
+    {%endwith%}
 
     </div>
   </article>
