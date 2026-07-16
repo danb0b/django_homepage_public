@@ -147,7 +147,7 @@ def import_markdown(my_path):
     print(len(update_paths),' posts updated')
 
 class Command(BaseCommand):
-    help = 'Displays current time'
+    help = 'Imports Markdown'
 
     def handle(self, *args, **kwargs):
 
