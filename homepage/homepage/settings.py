@@ -117,6 +117,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# custom addition for defining the search path for markdown file imports
+MARKDOWN_SOURCE_PATH = '/home/danaukes/repos/websites/danb0b.github.io/content'
+
 # Custom addition. This is the list of enabled markdown extensions
 MARKDOWN_EXTENSIONS = [
     'markdown.extensions.tables',
