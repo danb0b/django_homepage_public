@@ -20,3 +20,16 @@ Description of the branches below:
 * Created template for post list and post detail
 * Updated urls.py for the same
 * Added helper functions to run manage.py commands
+
+### Lecture 5
+
+* Modify the Post model to add markdown rendering
+* Modify templates to accommodate those changes
+* Changed our post content
+* Tested
+
+### Lecture 6
+
+* Added new Folder model
+* Updated post content to accommodate folder handling
+* Hacked Django's views to be able to differentiate between posts and folders in url paths
