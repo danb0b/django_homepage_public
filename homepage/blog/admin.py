@@ -12,12 +12,10 @@ class FolderAdmin(admin.ModelAdmin):
 admin.site.register(Folder,FolderAdmin)
 
 class TagAdmin(admin.ModelAdmin):
-    pass
     list_display = ['name'] 
 admin.site.register(Tag,TagAdmin)
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['path','author'] 
     pass
 
 admin.site.register(Post, PostAdmin)
