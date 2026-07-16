@@ -1,14 +1,34 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Posts</h1>
-  {% if post_list %}
+  {%if parents %}
+    {%for item in parents%}/<a href="{{item.1}}">{{ item.0 }}</a>{%endfor%}
+  {%endif%}
+
+  <h1>{% if current_folder%}Posts in {{current_folder}}{%else%} Posts {%endif%}</h1>
+
+  {% if children %}
+    <h2>Sub-Folders</h2>
     <ul>
-    {% for post in post_list %}
-      <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
-    {% endfor %}
+      {%for child in children%}
+        <li><a href="/{{child.name}}">{{child.name}}</a></li>
+      {%endfor%}
+    </ul>
+  {%endif%}
+
+  {% if post_list %}
+    {% if children %}
+      <h2>Posts</h2>
+    {%endif%}
+    <ul>
+        {% for post in post_list %}
+        <li>
+            <a href="{{ post.get_markdown_url }}">{{ post.get_title }}</a>
+        </li>
+      {% endfor %}
     </ul>
   {% else %}
-    <p>There are no posts in the blog.</p>
+    <p>There are no posts {% if current_folder%} in {{current_folder}}. {%else%}in the blog.{%endif%}</p>
   {% endif %}
+  
 {% endblock %}

@@ -14,6 +14,10 @@
   </head>
   <body>
     <a href="{% url 'posts' %}">Posts</a>
+    <a href="{% url 'folders' %}">Folders</a>
+    <a href="{% url 'find_top_folder'  top_dir='notebook' %}">Notebook</a>
+
+
     <main class="container">
       {% block content %}
         <p>Default Content</p>

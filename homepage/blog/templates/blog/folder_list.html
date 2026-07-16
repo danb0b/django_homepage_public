@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Folders</h1>
+  {% if folder_list %}
+    <ul>
+        {% for item in folder_list %}
+        <li><a href="/{{item}}">{{item}}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no folders in the blog.</p>
+  {% endif %}
+
+{% endblock %}

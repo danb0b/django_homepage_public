@@ -127,3 +127,6 @@ MARKDOWN_EXTENSIONS = [
     'markdown.extensions.wikilinks',
     'pymdownx.superfences',
     ]
+
+# Added to accommodate paths with slash or not
+APPEND_SLASH = True

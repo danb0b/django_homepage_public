@@ -1,23 +1,30 @@
 {% extends "base_generic.html" %}
 
 {% block title %}
-  {% if post.title %}
-    <title>{{post.title}} | DanAukes.com</title>
+  {% if post.get_title %}
+    <title>{{post.get_title}} | DanAukes.com</title>
   {% else %}
     <title>DanAukes.com</title>
   {% endif %}
 {% endblock %}
 
 {% block content %}
-  <article>
-    <h1>{{post.title}}</h1>
-    <hr/>
-    <div class="markdown">
+  <div> 
+    {% if parents %}<p>{%for item in parents%}/<a href="{{item.1}}">{{ item.0 }}</a>{%endfor%}</p>{% endif %}
+  </div>
+  <div>
+    <article>
+      {% if post.get_title %}
+        <h1>{{ post.get_title }}</h1>
+      {%endif%}
+      <hr/>
+      <div class="markdown">
+        {% with rendered_markdown=post.render_full_markdown %}
 
-    {% with rendered_markdown=post.render_full_markdown %}
-    {{ rendered_markdown.html | safe}}
-    {%endwith%}
+          {{ rendered_markdown.html | safe}}
 
-    </div>
-  </article>
+        {%endwith%}
+      </div>
+    </article>
+  </div>
 {% endblock %}
