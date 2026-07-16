@@ -7,12 +7,9 @@ from .models import Post
 from .models import Tag
 
 class TagAdmin(admin.ModelAdmin):
-    pass
     list_display = ['name'] 
 admin.site.register(Tag,TagAdmin)
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title','author'] 
-
     pass
 admin.site.register(Post, PostAdmin)
