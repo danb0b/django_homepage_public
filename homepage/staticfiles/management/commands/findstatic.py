@@ -1,0 +1,1 @@
+from django.contrib.staticfiles.management.commands.findstatic import Command

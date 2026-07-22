@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    # 'django.contrib.staticfiles',
+    'staticfiles.apps.StaticFilesConfig',    
     'blog.apps.BlogConfig', # Add this line
 ]
 
@@ -116,6 +117,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = '/home/danaukes/repos/django/django_homepage_public/collected_files'
+STATICFILES_DIRS = [
+    '/home/danaukes/repos/websites/danb0b.github.io/static',
+    '/home/danaukes/repos/websites/danb0b.github.io/content',
+    ]
+# custom addition for defining the search path for markdown file imports
+MARKDOWN_SOURCE_PATH = '/home/danaukes/repos/websites/danb0b.github.io/content'
+
 
 # custom addition for defining the search path for markdown file imports
 MARKDOWN_SOURCE_PATH = '/home/danaukes/repos/websites/danb0b.github.io/content'

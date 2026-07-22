@@ -5,6 +5,25 @@ from django.contrib.auth.models import User
 import markdown
 import os
 import json
+import re
+import markdown_extensions.find_replace_pre
+
+FILE_SEARCH=r"""(?P<group2>[a-zA-Z0-9./\-_ ]+(png|jpg|mp4|json|csv|xlsx|yml|trz))"""
+
+ABSFIND_CORE=r"""^/"""+FILE_SEARCH
+ABSREPLACE_CORE=settings.STATIC_URL+r'''\g<group2>'''
+
+RELFIND_CORE="""^(?!/)"""+FILE_SEARCH
+RELREPLACE1_CORE=r"""/"""
+RELREPLACE2_CORE=r"""\g<group2>"""
+
+ABSFIND=r"""(?P<group1>\]\(|src=")/"""+FILE_SEARCH+r"""(?P<group4>\)|"| *\n)"""
+ABSREPLACE=r"""\g<group1>"""+settings.STATIC_URL+r"""\g<group2>\g<group4>"""
+
+RELFIND=r"""(?P<group1>\]\(|src=")(?!/)"""+FILE_SEARCH+r"""(?P<group4>\)|"| *\n)"""
+RELREPLACE1 = r'''\g<group1>/'''
+RELREPLACE2 = r'''\g<group2>\g<group4>'''
+
 
 class Tag(models.Model):
 
@@ -35,6 +54,10 @@ class Post(models.Model):
     def __str__(self):
         return str(self.path)
 
+
+    def get_relpath(self):
+        return os.path.split(self.path)[0]
+    
     def get_absolute_url(self):
         return reverse('post', args=[str(self.pk)])
         
@@ -63,9 +86,20 @@ class Post(models.Model):
             title=os.path.split(self.path)[1]
         return title
                 
-    @staticmethod
-    def _render_markdown(input):
-        md = markdown.Markdown(extensions=settings.MARKDOWN_EXTENSIONS)
+    def _render_markdown(self,input):
+        md_ex = settings.MARKDOWN_EXTENSIONS
+        md_ex.extend([
+            markdown_extensions.find_replace_pre.FindReplaceExtension(
+                find=RELFIND,
+                replace=RELREPLACE1+self.get_relpath()+'/'+RELREPLACE2,
+                priority=202,
+                name='rel-find-replace'),
+            markdown_extensions.find_replace_pre.FindReplaceExtension(
+                find=ABSFIND,
+                replace=ABSREPLACE,priority=201,
+                name='abs-find-replace'),
+            ])
+        md = markdown.Markdown(extensions=md_ex)
         html_pass_1=md.convert(input)
         toc_tokens=md.toc_tokens
         my_dict = dict(html=html_pass_1,toc_tokens=toc_tokens)

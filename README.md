@@ -33,3 +33,12 @@ Description of the branches below:
 * Added new Folder model
 * Updated post content to accommodate folder handling
 * Hacked Django's views to be able to differentiate between posts and folders in url paths
+
+### Lecture 7
+
+* Added import feature to import all posts from markdown files
+
+### Lecture 8
+
+* Rewriting relative and absolute paths to static files in markdown -- added preprocessor step
+* Added a staticfiles app to filter out markdown files from being "collected" 
