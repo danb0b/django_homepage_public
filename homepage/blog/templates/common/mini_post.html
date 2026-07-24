@@ -1,0 +1,23 @@
+{% load static %}
+<div class="card mb-3">
+    <div class="{% if rowclass %}{{rowclass}}{%else%}row{%endif%} g-0">
+        {% if post.get_image %}
+        <div class="{% if imgcolclass %}{{imgcolclass}}{%else%}col-md-4{%endif%} rounded" style="background-position: center;  background-image: url('{% if post.get_image %}{{ post.get_image }}{% else %}{% static 'bg-secondary.png' %}{%endif%}');  background-repeat: no-repeat;  background-size: cover;{% if imgminheight %}min-height:{{imgminheight}};{%else%}{% if post.get_image %}min-height:120px;{%else%}min-height:30px;{%endif%}{%endif%}">
+            </div>
+            <div class="{% if txtcolclass %}{{txtcolclass}}{%else%}col-md-8{%endif%}">
+            {%else%}
+            <div class="{% if txtcolclass %}{{txtcolclass}}{%else%}col-md-12{%endif%}">
+            {%endif%}
+                <div class="card-body d-flex flex-column h-100">
+                    <h5 class="card-title"><a class="text-underline-hover" href="{{ post.get_markdown_url }}" >{{ post.get_title }}</a></h5>
+                    <p class="card-text"><small class="text-muted">
+                        {% if post.date %} {{post.date|date:"l, F d, Y" }}{% endif %}
+                        {% if post.author.first_name or post.author.last_name %} by {{post.author.first_name }} {{post.author.last_name }}{% elif post.author %} by {{post.author}}{% endif %}            
+                    </small></p>
+                    <div class="card-text mini-post">{{ post.summary_or_short_generated_preview | safe}}</div>
+
+                    <a href="{{ post.get_markdown_url }}" class="btn btn-secondary mt-auto mx-auto px-4">Read More</a>                        
+                </div>
+            </div>
+    </div>
+</div>

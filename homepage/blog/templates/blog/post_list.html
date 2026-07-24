@@ -9,26 +9,24 @@
 
   {% if children %}
     <h2>Sub-Folders</h2>
-    <ul>
       {%for child in children%}
-        <li><a href="/{{child.name}}">{{child.name}}</a></li>
+        <a class="btn btn-primary me-1 mb-2" href="/{{child.name}}" role="button">{{child.name}}</a>
       {%endfor%}
-    </ul>
   {%endif%}
 
   {% if post_list %}
     {% if children %}
-      <h2>Posts</h2>
+    <h2>Posts</h2>
     {%endif%}
-    <ul>
-        {% for post in post_list %}
-        <li>
-            <a href="{{ post.get_markdown_url }}">{{ post.get_title }}</a>
-        </li>
+    <div class="row" data-masonry='{"percentPosition": true }'>
+      {% for post in post_list %}
+        <div class="col-md-6">
+          {% include 'common/mini_post.html' %}
+        </div>
       {% endfor %}
-    </ul>
+      </div>
   {% else %}
     <p>There are no posts {% if current_folder%} in {{current_folder}}. {%else%}in the blog.{%endif%}</p>
   {% endif %}
-  
-{% endblock %}
+
+  {% endblock %}

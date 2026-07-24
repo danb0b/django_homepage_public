@@ -1,0 +1,130 @@
+body {
+  padding-top: 60px;
+  padding-bottom: 70px;
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;  
+  font-weight: 400;
+  font-style: normal;
+  line-height: 24px;
+  font-variation-settings: "width" 100;
+}
+
+/* :root {
+    --navbar-height: 50px;
+} */
+
+:target {
+    scroll-margin-top: 80px;
+    scroll-margin-bottom: 80px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin", sans-serif;
+}
+
+.flex-auto {
+  flex: 0 0 auto;
+}
+
+.blog-post {
+  margin-bottom: 2rem;
+}
+
+.blog-post-meta {
+  color: #727272;
+}
+
+.blog-post-caption{
+  font-style: italic;
+  border-bottom: 1px;
+}
+
+pre {
+  font-family: "Roboto Mono", monospace;
+  padding: 1rem;
+  margin: 1px;
+  background-color: rgba(var(--bs-tertiary-bg-rgb)) !important;
+  border-radius: var(--bs-border-radius) !important;  
+}
+
+blockquote {
+  padding: 1rem;
+  margin: 1px;
+  background-color: rgba(var(--bs-secondary-bg-rgb)) !important;
+  border-radius: var(--bs-border-radius) !important;  
+}
+
+blockquote p{
+  margin: 1px;
+  padding: 1px;
+}
+
+.navbar-brand {
+    /* color: #dd0202 !important; */
+}
+
+.navbar-nav .nav-link {
+    /* color: #636e3d !important;  */
+}
+
+.headline {
+  max-width: 100%;
+  height: auto;
+}
+
+.markdown img{
+  max-width: 32%;
+  max-height: 400px;
+  height: auto;
+}
+
+.markdown video{
+  max-width: 100%;
+  max-height: 400px;
+  height: auto;
+}
+
+.mini-post img{
+  max-width: 100%;
+  max-height: 120px;
+  height: auto;
+  width: auto;}
+
+.mini-post video{
+  max-width: 100%;
+  max-height: 120px;
+  height: auto;
+  width: auto;
+}
+
+.mini-post iframe{
+  max-width: 100%;
+  max-height: 120px;
+  height: auto;
+  width: auto;
+}
+
+.markdown td,.markdown th{
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(var(--bs-secondary-rgb)) !important;
+  padding: .5rem;
+  margin: .5rem;
+  border-radius: var(--bs-border-radius) !important;  
+}
+
+.markdown table {
+  margin: 1px;
+  background-color: rgba(var(--bs-secondary-bg-rgb)) !important;
+  border-radius: var(--bs-border-radius) !important;  
+}
+
+.text-underline-hover {
+    text-decoration: none;
+    color:var(--bs-dark-text-emphasis);
+}
+
+.text-underline-hover:hover {
+    text-decoration: underline;
+    color:var(--bs-primary);
+}

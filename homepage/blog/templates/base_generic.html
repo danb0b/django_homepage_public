@@ -2,27 +2,25 @@
 <html lang="en" data-bs-theme="auto">
   {% load static %}
   <head>
-
     {% block title %}
     <title>DanAukes.com</title>
     {% endblock %}
-
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="Daniel M. Aukes" />
-
+    <link rel="icon" href="{% static 'favicon.png'%}" type="image/png" />
+    {% include 'common/libraries_header.html' %}
+    {% block custom_libraries %}{% endblock %}
   </head>
   <body>
-    <a href="{% url 'posts' %}">Posts</a>
-    <a href="{% url 'folders' %}">Folders</a>
-    <a href="{% url 'find_top_folder'  top_dir='notebook' %}">Notebook</a>
-
-
+    {% include 'common/header.html' %}
     <main class="container">
-      {% block content %}
-        <p>Default Content</p>
-      {% endblock %}
+      {% block content %}{% endblock %}
     </main>
+      {% block footer %}
+    {% include 'common/footer.html' %}
+      {% endblock %}
+    {% include 'common/libraries_footer.html'%}
   </body>
 </html>
-

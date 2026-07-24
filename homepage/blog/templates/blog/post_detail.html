@@ -1,30 +1,78 @@
 {% extends "base_generic.html" %}
 
 {% block title %}
-  {% if post.get_title %}
-    <title>{{post.get_title}} | DanAukes.com</title>
-  {% else %}
-    <title>DanAukes.com</title>
-  {% endif %}
+{% if post.get_title %}
+<title>{{post.get_title}} | DanAukes.com</title>
+{% else %}
+<title>DanAukes.com</title>
+{% endif %}
 {% endblock %}
 
+
 {% block content %}
-  <div> 
-    {% if parents %}<p>{%for item in parents%}/<a href="{{item.1}}">{{ item.0 }}</a>{%endfor%}</p>{% endif %}
+
+<div class="row">
+  <div class=""> 
+  {% if parents %}<p>{%for item in parents%}/<a href="{{item.1}}">{{ item.0 }}</a>{%endfor%}</p>{% endif %}
   </div>
-  <div>
-    <article>
+</div>
+<div class="row g-5">
+  <div class="col-md-8">
+
+    {% if post.get_image %}
+      <img class="headline" src="{{ post.get_image }}">
+    {%endif%}
+
+    <article class="blog-post">
+
       {% if post.get_title %}
-        <h1>{{ post.get_title }}</h1>
+        <h1 class="display-5 link-body-emphasis mb-1">
+          {{post.get_title}}
+        </h1>
       {%endif%}
-      <hr/>
+
+
+      <p class="blog-post-meta">
+        {% if post.date %} {{post.date|date:"l, F d, Y" }}{% endif %}
+        {% if post.author.first_name or post.author.last_name %} by {{post.author.first_name }} {{post.author.last_name }}{% elif post.author %} by {{post.author}}{% endif %}
+      </p>
+      {% if post.get_summary %}
+      <p  class="blog-post-caption">{{ post.get_summary}}</p>
+      {% endif %}
+  <hr>
+
+      {% load static %}
+
       <div class="markdown">
+
         {% with rendered_markdown=post.render_full_markdown %}
 
           {{ rendered_markdown.html | safe}}
 
         {%endwith%}
+
       </div>
     </article>
   </div>
+  <div class="col-md-4">
+    <div class="position-sticky" style="top: 2rem">
+
+      {% if post.tags.all|length %}
+        <div class="p-4 mb-3 bg-body-tertiary rounded">
+          <h4>Tags</h4>
+          {% for tag in post.tags.all %}
+          <a href="/posts/tag/{{ tag.name }}"><span class="badge bg-primary">{{ tag.name }}</span></a>{% endfor %}
+        </div>  
+      {% endif %}
+
+      {% block sidebar %}
+        {% include 'common/sidebar.html' %}
+      {% endblock %}
+    </div>
+  </div>
+</div>  
+{% endblock %}
+
+{% block footer %}
+  {% include 'common/footer.html' %}
 {% endblock %}

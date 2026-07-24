@@ -1,0 +1,7 @@
+{% load static %}
+<div class="p-4 mb-3 bg-body-tertiary rounded">
+    <img class="img-fluid" src="{% static 'images/headshot_shrunk.jpg' %}">
+    <h4>About</h4>
+    <p class="mb-0">I am an engineer and educator, having spent ten years as a professor.  My goal is to help you build your knowledge of design and technology, get your hardware working, and propel your startup or small business.  Get in touch!</p>
+    <p><a href="{% url 'find_top_folder'  top_dir='about' %}">Read More...</a></p>
+</div>

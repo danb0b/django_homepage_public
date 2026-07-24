@@ -7,6 +7,7 @@ import os
 import json
 import re
 import markdown_extensions.find_replace_pre
+import markdown_extensions.glightboxify
 
 FILE_SEARCH=r"""(?P<group2>[a-zA-Z0-9./\-_ ]+(png|jpg|mp4|json|csv|xlsx|yml|trz))"""
 
@@ -98,6 +99,7 @@ class Post(models.Model):
                 find=ABSFIND,
                 replace=ABSREPLACE,priority=201,
                 name='abs-find-replace'),
+            markdown_extensions.glightboxify.GlightboxExtension(),
             ])
         md = markdown.Markdown(extensions=md_ex)
         html_pass_1=md.convert(input)
@@ -107,3 +109,67 @@ class Post(models.Model):
 
     def render_full_markdown(self):
         return self._render_markdown(self.content)          
+
+    def get_image(self):
+        try:
+            my_json = json.loads(self.json)
+            image = self.replace_static(my_json['image'])
+        except KeyError:
+            image=None
+        except TypeError:
+            image=None
+        return image
+
+    def get_summary(self):
+        try:
+            my_json = json.loads(self.json)
+            summary=my_json['summary']
+        except KeyError:
+            summary=None
+        except TypeError:
+            summary=None
+        return summary
+
+    def gen_preview_text(self):
+        return self._render_markdown(' '.join(self.content[:200].split(' ')[:-1][:15])+' ...')['html']
+
+
+    def summary_or_short_generated_preview(self):
+        summary = self.get_summary()
+        if not summary:
+            summary=self.gen_preview_text()
+        return summary
+
+    def get_preview_text(self):
+        if self.can_be_split():
+            return self.render_split_markdown()['html']     
+        else:
+            return self.gen_preview_text()
+
+
+    @staticmethod
+    def split_content(markdown):
+        kernel = re.compile('<!-- *split *-->')
+        results = kernel.search(markdown)
+        if results is not None:
+            return markdown[:results.start()]
+        else:
+            return markdown
+
+    def can_be_split(self):
+        markdown = self.content
+        kernel = re.compile('<!-- *split *-->')
+        results = kernel.search(markdown)
+        if results is not None:
+            return True
+        else:
+            return False
+
+    def replace_static(self,text):
+        text = re.sub(RELFIND_CORE,RELREPLACE1_CORE+self.get_relpath()+'/'+RELREPLACE2_CORE,text)
+        text = re.sub(ABSFIND_CORE,ABSREPLACE_CORE,text)
+        print(text)
+        return text
+
+    def render_split_markdown(self):
+        return self._render_markdown(self.split_content(self.content))             
