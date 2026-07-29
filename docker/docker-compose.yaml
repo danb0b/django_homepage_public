@@ -1,0 +1,52 @@
+services:
+  django:
+    hostname: django
+    container_name: django
+    image: danb0b/django_markdown:latest
+    env_file: "../my_env.env"
+    volumes:
+      - ../homepage:/homepage
+      - /home/danaukes/repos/websites/danb0b.github.io:/source
+      - ../collected_files:/files
+      - ./log:/log
+    working_dir: /homepage
+    command: bash -c "./run"
+    restart: unless-stopped
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
+    #     restart: true
+    #     required: true
+    networks:
+    - local
+  caddy:
+    hostname: caddy
+    container_name: caddy
+    image: danb0b/django_caddy:latest
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8000:8000
+      - 8001:8001
+    volumes:
+      - ./caddyconf:/etc/caddy
+      - ./caddysite:/srv
+      - ./caddydata:/data
+      - ./caddyconfig:/config
+      - ../collected_files:/files
+    restart: unless-stopped
+    networks:
+      - local
+  db:
+    hostname: db
+    container_name: db
+    image: danb0b/my_maria_db:latest
+    restart: unless-stopped
+    volumes:
+      - ./db/mysql:/var/lib/mysql
+    env_file: "../my_env.env"
+    networks:
+    - local
+networks:
+  local:
+    driver: bridge

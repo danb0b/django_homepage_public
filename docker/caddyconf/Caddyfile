@@ -1,0 +1,14 @@
+:8000 {
+    reverse_proxy {
+        to django:8000
+    }
+}
+
+:8001 {
+    root * /files
+    file_server
+    log {
+        output file /var/log/danaukes_files.log
+        format json
+    }
+}

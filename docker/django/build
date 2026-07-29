@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+cp ../../requirements.txt ./ && \
+docker build -t danb0b/django_markdown . --progress plain && \
+rm ./requirements.txt
