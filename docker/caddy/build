@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+docker build -t danb0b/django_caddy .
