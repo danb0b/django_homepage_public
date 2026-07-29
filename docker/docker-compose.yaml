@@ -2,7 +2,8 @@ services:
   django:
     hostname: django
     container_name: django
-    image: danb0b/django_markdown:latest
+    # image: danb0b/django_markdown:latest
+    image: django_markdown:latest
     env_file: "../my_env.env"
     volumes:
       - ../homepage:/homepage
@@ -22,7 +23,8 @@ services:
   caddy:
     hostname: caddy
     container_name: caddy
-    image: danb0b/django_caddy:latest
+    # image: danb0b/django_caddy:latest
+    image: django_caddy:latest
     cap_add:
       - NET_ADMIN
     ports:
@@ -40,10 +42,11 @@ services:
   db:
     hostname: db
     container_name: db
-    image: danb0b/my_maria_db:latest
+    # image: danb0b/my_maria_db:latest
+    image: my_maria_db:latest
     restart: unless-stopped
     volumes:
-      - ./db/mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     env_file: "../my_env.env"
     networks:
     - local

@@ -3,7 +3,7 @@
 .venv/*
 *.env
 homepage/db.sqlite3
-docker/db/mysql/*
+docker/mysql/*
 collected_files/*
 docker/caddyconfig/*
 docker/caddydata/*
