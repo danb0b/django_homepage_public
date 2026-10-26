@@ -1,2 +1,2 @@
 #!/usr/bin/bash
-docker exec -it django ./import
+docker exec django ./import

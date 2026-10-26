@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+echo "changing dir" && cd /home/ubuntu/danb0b.github.io && \
+echo "pulling git" && git pull && \
+echo "changing dir" && cd /home/ubuntu/django_homepage && \
+echo "importing" && ./import && \
+echo "pulled at $(date)" | sudo tee -a /home/ubuntu/update_website.log

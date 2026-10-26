@@ -1,10 +1,10 @@
 **/__pycache__/*
-**/migrations/*
+**/migrations/[0-9]*.py
 .venv/*
 *.env
 homepage/db.sqlite3
-docker/mysql/*
 collected_files/*
+docker/db/mysql/*
 docker/caddyconfig/*
 docker/caddydata/*
 docker/log/*

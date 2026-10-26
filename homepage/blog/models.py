@@ -9,22 +9,8 @@ import re
 import markdown_extensions.find_replace_pre
 import markdown_extensions.glightboxify
 
-FILE_SEARCH=r"""(?P<group2>[a-zA-Z0-9./\-_ ]+(png|jpg|mp4|json|csv|xlsx|yml|trz))"""
-
-ABSFIND_CORE=r"""^/"""+FILE_SEARCH
-ABSREPLACE_CORE=settings.STATIC_URL+r'''\g<group2>'''
-
-RELFIND_CORE="""^(?!/)"""+FILE_SEARCH
-RELREPLACE1_CORE=r"""/"""
-RELREPLACE2_CORE=r"""\g<group2>"""
-
-ABSFIND=r"""(?P<group1>\]\(|src=")/"""+FILE_SEARCH+r"""(?P<group4>\)|"| *\n)"""
-ABSREPLACE=r"""\g<group1>"""+settings.STATIC_URL+r"""\g<group2>\g<group4>"""
-
-RELFIND=r"""(?P<group1>\]\(|src=")(?!/)"""+FILE_SEARCH+r"""(?P<group4>\)|"| *\n)"""
-RELREPLACE1 = r'''\g<group1>/'''
-RELREPLACE2 = r'''\g<group2>\g<group4>'''
-
+from blog import regex_templates
+from blog import utils
 
 class Tag(models.Model):
 
@@ -40,7 +26,6 @@ class Folder(models.Model):
         return str(self.name)
 
 class Post(models.Model):
-    # title = models.CharField(max_length=200,unique=True)
     path = models.CharField(max_length=200,unique=True)
     author = models.ForeignKey(User, null=True, on_delete= models.SET_NULL)
     tags = models.ManyToManyField(Tag,blank=True)
@@ -86,29 +71,6 @@ class Post(models.Model):
         except TypeError:
             title=os.path.split(self.path)[1]
         return title
-                
-    def _render_markdown(self,input):
-        md_ex = settings.MARKDOWN_EXTENSIONS
-        md_ex.extend([
-            markdown_extensions.find_replace_pre.FindReplaceExtension(
-                find=RELFIND,
-                replace=RELREPLACE1+self.get_relpath()+'/'+RELREPLACE2,
-                priority=202,
-                name='rel-find-replace'),
-            markdown_extensions.find_replace_pre.FindReplaceExtension(
-                find=ABSFIND,
-                replace=ABSREPLACE,priority=201,
-                name='abs-find-replace'),
-            markdown_extensions.glightboxify.GlightboxExtension(),
-            ])
-        md = markdown.Markdown(extensions=md_ex)
-        html_pass_1=md.convert(input)
-        toc_tokens=md.toc_tokens
-        my_dict = dict(html=html_pass_1,toc_tokens=toc_tokens)
-        return my_dict
-
-    def render_full_markdown(self):
-        return self._render_markdown(self.content)          
 
     def get_image(self):
         try:
@@ -131,7 +93,7 @@ class Post(models.Model):
         return summary
 
     def gen_preview_text(self):
-        return self._render_markdown(' '.join(self.content[:200].split(' ')[:-1][:15])+' ...')['html']
+        return utils.render_markdown(' '.join(self.content[:200].split(' ')[:-1][:15])+' ...',extra_extensions=self.get_extra_extensions())['html']
 
 
     def summary_or_short_generated_preview(self):
@@ -151,6 +113,28 @@ class Post(models.Model):
     def split_content(markdown):
         kernel = re.compile('<!-- *split *-->')
         results = kernel.search(markdown)
+    
+    def get_extra_extensions(self):
+        extra_extensions = [
+                markdown_extensions.find_replace_pre.FindReplaceExtension(
+                    find=regex_templates.RELFIND,
+                    replace=regex_templates.RELREPLACE1
+                    + self.get_relpath()
+                    + "/"
+                    + regex_templates.RELREPLACE2,
+                    priority=202,
+                    name="rel-find-replace",
+                ),
+                markdown_extensions.find_replace_pre.FindReplaceExtension(
+                    find=regex_templates.ABSFIND,
+                    replace=regex_templates.ABSREPLACE,
+                    priority=201,
+                    name="abs-find-replace",
+                ),
+                markdown_extensions.glightboxify.GlightboxExtension(),
+            ]
+        return extra_extensions
+
         if results is not None:
             return markdown[:results.start()]
         else:
@@ -166,10 +150,33 @@ class Post(models.Model):
             return False
 
     def replace_static(self,text):
-        text = re.sub(RELFIND_CORE,RELREPLACE1_CORE+self.get_relpath()+'/'+RELREPLACE2_CORE,text)
-        text = re.sub(ABSFIND_CORE,ABSREPLACE_CORE,text)
+        text = re.sub(regex_templates.RELFIND_CORE,regex_templates.RELREPLACE1_CORE+self.get_relpath()+'/'+regex_templates.RELREPLACE2_CORE,text)
+        text = re.sub(regex_templates.ABSFIND_CORE,regex_templates.ABSREPLACE_CORE,text)
         print(text)
         return text
 
+    def render_full_markdown(self):
+        return utils.render_markdown(self.content,extra_extensions=self.get_extra_extensions())        
+
     def render_split_markdown(self):
-        return self._render_markdown(self.split_content(self.content))             
+        return utils.render_markdown(self.split_content(self.content),extra_extensions=self.get_extra_extensions())        
+    def get_extra_extensions(self):
+        extra_extensions = [
+                markdown_extensions.find_replace_pre.FindReplaceExtension(
+                    find=regex_templates.RELFIND,
+                    replace=regex_templates.RELREPLACE1
+                    + self.get_relpath()
+                    + "/"
+                    + regex_templates.RELREPLACE2,
+                    priority=202,
+                    name="rel-find-replace",
+                ),
+                markdown_extensions.find_replace_pre.FindReplaceExtension(
+                    find=regex_templates.ABSFIND,
+                    replace=regex_templates.ABSREPLACE,
+                    priority=201,
+                    name="abs-find-replace",
+                ),
+                markdown_extensions.glightboxify.GlightboxExtension(),
+            ]
+        return extra_extensions

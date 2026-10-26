@@ -8,15 +8,16 @@
             {%else%}
             <div class="{% if txtcolclass %}{{txtcolclass}}{%else%}col-md-12{%endif%}">
             {%endif%}
-                <div class="card-body d-flex flex-column h-100">
-                    <h5 class="card-title"><a class="text-underline-hover" href="{{ post.get_markdown_url }}" >{{ post.get_title }}</a></h5>
-                    <p class="card-text"><small class="text-muted">
+                <div class="card-header d-flex flex-column">
+                    <h3 class="card-title text-center"><a class="text-underline-hover" href="{{ post.get_markdown_url }}" >{{ post.get_title }}</a></h3>
+                    <p class="card-text mb-1 text-center"><small class="text-muted">
                         {% if post.date %} {{post.date|date:"l, F d, Y" }}{% endif %}
                         {% if post.author.first_name or post.author.last_name %} by {{post.author.first_name }} {{post.author.last_name }}{% elif post.author %} by {{post.author}}{% endif %}            
-                    </small></p>
-                    <div class="card-text mini-post">{{ post.summary_or_short_generated_preview | safe}}</div>
-
-                    <a href="{{ post.get_markdown_url }}" class="btn btn-secondary mt-auto mx-auto px-4">Read More</a>                        
+                    </small></p>                </div>            
+                <div class="card-body d-flex flex-column h-100">
+                    <div class="card-text mini-post">
+                    {{ post.summary_or_short_generated_preview | safe}}
+                    </div>
                 </div>
             </div>
     </div>

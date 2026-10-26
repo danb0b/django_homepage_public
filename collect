@@ -1,2 +1,2 @@
 #!/usr/bin/bash
-docker exec -it django ./collect
+docker exec django ./collect
