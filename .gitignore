@@ -1,7 +1,8 @@
 **/__pycache__/*
-**/migrations/*
+**/migrations/[0-9]*.py
 .venv/*
 *.env
 homepage/db.sqlite3
 docker/db/mysql/*
 collected_files/*
+.vscode/settings.json
