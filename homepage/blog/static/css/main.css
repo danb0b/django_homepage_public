@@ -104,6 +104,33 @@ blockquote p{
   width: auto;
 }
 
+.mini-post {
+  font-size: .9em;
+}
+
+.mini-post h1{
+  font-size: 1.75rem;
+}
+
+.mini-post h2{
+  font-size: 1.6rem;
+}
+
+.mini-post h3{
+  font-size: 1.45rem;
+}
+.mini-post h4{
+  font-size: 1.3rem;
+}
+.mini-post h4{
+  font-size: 1.15rem;
+}
+.mini-post h6{
+  font-size: 1rem;
+}
+
+
+
 .markdown td,.markdown th{
   border-style: solid;
   border-width: 1px;
@@ -127,4 +154,18 @@ blockquote p{
 .text-underline-hover:hover {
     text-decoration: underline;
     color:var(--bs-primary);
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

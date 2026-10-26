@@ -12,9 +12,16 @@
 {% block content %}
 
 <div class="row">
-  <div class=""> 
-  {% if parents %}<p>{%for item in parents%}/<a href="{{item.1}}">{{ item.0 }}</a>{%endfor%}</p>{% endif %}
-  </div>
+{% if parents %}  
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      {%for item in parents%}
+      <li class="breadcrumb-item{% if forloop.last %} active{% endif %}"><a href="{{item.1}}">{{item.0}}</a></li>
+      {%endfor%}
+    </ol>
+  </nav>
+{% endif %}
+
 </div>
 <div class="row g-5">
   <div class="col-md-8">
