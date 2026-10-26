@@ -3,9 +3,6 @@
 .venv/*
 *.env
 homepage/db.sqlite3
-collected_files/*
 docker/db/mysql/*
-docker/caddyconfig/*
-docker/caddydata/*
-docker/log/*
+collected_files/*
 .vscode/settings.json
