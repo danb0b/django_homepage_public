@@ -4,4 +4,5 @@
 *.env
 homepage/db.sqlite3
 docker/db/mysql/*
+collected_files/*
 .vscode/settings.json
