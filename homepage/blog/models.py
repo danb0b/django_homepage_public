@@ -8,22 +8,8 @@ import json
 import re
 import markdown_extensions.find_replace_pre
 
-FILE_SEARCH=r"""(?P<group2>[a-zA-Z0-9./\-_ ]+(png|jpg|mp4|json|csv|xlsx|yml|trz))"""
-
-ABSFIND_CORE=r"""^/"""+FILE_SEARCH
-ABSREPLACE_CORE=settings.STATIC_URL+r'''\g<group2>'''
-
-RELFIND_CORE="""^(?!/)"""+FILE_SEARCH
-RELREPLACE1_CORE=r"""/"""
-RELREPLACE2_CORE=r"""\g<group2>"""
-
-ABSFIND=r"""(?P<group1>\]\(|src=")/"""+FILE_SEARCH+r"""(?P<group4>\)|"| *\n)"""
-ABSREPLACE=r"""\g<group1>"""+settings.STATIC_URL+r"""\g<group2>\g<group4>"""
-
-RELFIND=r"""(?P<group1>\]\(|src=")(?!/)"""+FILE_SEARCH+r"""(?P<group4>\)|"| *\n)"""
-RELREPLACE1 = r'''\g<group1>/'''
-RELREPLACE2 = r'''\g<group2>\g<group4>'''
-
+from blog import regex_templates
+from blog import utils
 
 class Tag(models.Model):
 
@@ -39,7 +25,6 @@ class Folder(models.Model):
         return str(self.name)
 
 class Post(models.Model):
-    # title = models.CharField(max_length=200,unique=True)
     path = models.CharField(max_length=200,unique=True)
     author = models.ForeignKey(User, null=True, on_delete= models.SET_NULL)
     tags = models.ManyToManyField(Tag,blank=True)
@@ -85,25 +70,27 @@ class Post(models.Model):
         except TypeError:
             title=os.path.split(self.path)[1]
         return title
-                
-    def _render_markdown(self,input):
-        md_ex = settings.MARKDOWN_EXTENSIONS
-        md_ex.extend([
-            markdown_extensions.find_replace_pre.FindReplaceExtension(
-                find=RELFIND,
-                replace=RELREPLACE1+self.get_relpath()+'/'+RELREPLACE2,
-                priority=202,
-                name='rel-find-replace'),
-            markdown_extensions.find_replace_pre.FindReplaceExtension(
-                find=ABSFIND,
-                replace=ABSREPLACE,priority=201,
-                name='abs-find-replace'),
-            ])
-        md = markdown.Markdown(extensions=md_ex)
-        html_pass_1=md.convert(input)
-        toc_tokens=md.toc_tokens
-        my_dict = dict(html=html_pass_1,toc_tokens=toc_tokens)
-        return my_dict
 
     def render_full_markdown(self):
-        return self._render_markdown(self.content)          
+        return utils.render_markdown(self.content,extra_extensions=self.get_extra_extensions())        
+
+    def get_extra_extensions(self):
+        extra_extensions = [
+                markdown_extensions.find_replace_pre.FindReplaceExtension(
+                    find=regex_templates.RELFIND,
+                    replace=regex_templates.RELREPLACE1
+                    + self.get_relpath()
+                    + "/"
+                    + regex_templates.RELREPLACE2,
+                    priority=202,
+                    name="rel-find-replace",
+                ),
+                markdown_extensions.find_replace_pre.FindReplaceExtension(
+                    find=regex_templates.ABSFIND,
+                    replace=regex_templates.ABSREPLACE,
+                    priority=201,
+                    name="abs-find-replace",
+                ),
+                markdown_extensions.glightboxify.GlightboxExtension(),
+            ]
+        return extra_extensions
