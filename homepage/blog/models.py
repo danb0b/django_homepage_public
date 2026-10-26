@@ -114,27 +114,6 @@ class Post(models.Model):
         kernel = re.compile('<!-- *split *-->')
         results = kernel.search(markdown)
     
-    def get_extra_extensions(self):
-        extra_extensions = [
-                markdown_extensions.find_replace_pre.FindReplaceExtension(
-                    find=regex_templates.RELFIND,
-                    replace=regex_templates.RELREPLACE1
-                    + self.get_relpath()
-                    + "/"
-                    + regex_templates.RELREPLACE2,
-                    priority=202,
-                    name="rel-find-replace",
-                ),
-                markdown_extensions.find_replace_pre.FindReplaceExtension(
-                    find=regex_templates.ABSFIND,
-                    replace=regex_templates.ABSREPLACE,
-                    priority=201,
-                    name="abs-find-replace",
-                ),
-                markdown_extensions.glightboxify.GlightboxExtension(),
-            ]
-        return extra_extensions
-
         if results is not None:
             return markdown[:results.start()]
         else:
@@ -160,6 +139,7 @@ class Post(models.Model):
 
     def render_split_markdown(self):
         return utils.render_markdown(self.split_content(self.content),extra_extensions=self.get_extra_extensions())        
+
     def get_extra_extensions(self):
         extra_extensions = [
                 markdown_extensions.find_replace_pre.FindReplaceExtension(
