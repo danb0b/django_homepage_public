@@ -22,9 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
+    'test.danaukes.com',
 ]
 
 # Application definition
@@ -118,7 +120,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'http://127.0.0.1:8001/'
+STATIC_URL = 'https://testfiles.danaukes.com/'
 STATIC_ROOT = '/files'
 STATICFILES_DIRS = [
     '/source/static',
@@ -131,8 +133,9 @@ MARKDOWN_SOURCE_PATH = '/source/content'
 
 # Added to permit only logins when the site is found at the following domains
 CSRF_TRUSTED_ORIGINS = [
-                        'http://127.0.0.1',
+                        'https://test.danaukes.com',
                        ]
+
 # Custom addition. This is the list of enabled markdown extensions
 MARKDOWN_EXTENSIONS = [
     'markdown.extensions.tables',
